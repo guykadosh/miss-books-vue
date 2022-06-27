@@ -1,0 +1,13 @@
+.home-page {
+  text-align: center;
+  display: flex;
+  padding: 64px;
+}
+
+.home-page h1 {
+  font-size: 4rem;
+  font-family: Roboto-bold, sans-serif;
+  font-weight: 700;
+  /* color: var(--primary-color); */
+  margin-bottom: 2rem;
+}
