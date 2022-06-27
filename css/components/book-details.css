@@ -1,3 +1,7 @@
+.book-details-container {
+  padding-bottom: 64px;
+}
+
 .book-details {
   position: relative;
   margin-bottom: 1.2rem;

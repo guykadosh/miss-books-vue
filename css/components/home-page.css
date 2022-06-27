@@ -11,3 +11,14 @@
   /* color: var(--primary-color); */
   margin-bottom: 2rem;
 }
+
+.home-page h2 {
+  font-size: 2.2rem;
+  color: var(--gray2);
+  margin-block-end: 5rem;
+}
+
+.headings .btn {
+  padding: 20px;
+  font-size: 1.2rem;
+}

@@ -1,7 +1,10 @@
 export default {
   template: `
   <footer>
-    <p>FOOTER</p>
+    <div class="logo">
+      <img src="../../img/logo-white.png" alt="">
+    </div>
+    <p>© Guy Kadosh - CaMay 2022 - MissBooks</p>
   </footer>
 `,
   data() {

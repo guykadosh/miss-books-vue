@@ -2,6 +2,7 @@
   grid-template-columns: repeat(auto-fit, 225px);
   gap: 1rem;
   justify-content: center;
+  padding-bottom: 64px;
 }
 
 .book-preview-container {
