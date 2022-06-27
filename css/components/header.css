@@ -15,9 +15,52 @@ header {
   width: 150px;
 }
 
-.nav-bar a {
+/* .nav-bar a {
   text-decoration: none;
   color: #fff;
   text-transform: uppercase;
   margin-inline-end: 1.2rem;
+} */
+
+.header .nav-bar a {
+  color: #f6f4e6;
+  text-decoration: none;
+  font-size: 1em;
+  text-transform: uppercase;
+  font-weight: 400;
+  display: inline-block;
+  width: 5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.header .nav-bar a:hover {
+  color: #a9e34b;
+}
+
+.header .nav-bar .dot {
+  width: 0.375rem;
+  height: 0.375rem;
+  background: #a9e34b;
+  border-radius: 50%;
+  opacity: 0;
+  transform: translateX(2.3rem);
+  transition: all 0.2s ease-in-out;
+}
+
+.header .nav-bar a:nth-child(1):hover ~ .dot {
+  transform: translateX(2.3rem);
+  transition: all 0.2s ease-in-out;
+  opacity: 1;
+}
+
+.header .nav-bar a:nth-child(2):hover ~ .dot {
+  transform: translateX(7.3rem);
+  transition: all 0.2s ease-in-out;
+  opacity: 1;
+}
+
+.header .nav-bar a:nth-child(3):hover ~ .dot {
+  transform: translateX(12.3rem);
+  transition: all 0.2s ease-in-out;
+  opacity: 1;
 }

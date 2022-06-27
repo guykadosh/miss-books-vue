@@ -5,7 +5,11 @@ export default {
  <section v-if="msg" class="user-msg flex" :class="msg.type">
     <i v-if="msg.type === 'success'" class="fa-solid fa-circle-check"></i>
     <i v-else class="fa-solid fa-circle-exclamation"></i>
-    <h3>{{msg.txt}}</h3>
+    <div>
+      <h3>{{msg.txt}}</h3>
+      <router-link :to="msg.link ? 'msg.link' : '/'">Check it Out</router-link>
+
+    </div>
  </section>
 `,
   data() {
