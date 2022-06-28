@@ -18,6 +18,8 @@ export const bookService = {
   removeReview,
   getGoogleBooks,
   addGoogleBook,
+  getNextBookId,
+  getPrevBookId,
 }
 
 function query() {
@@ -89,6 +91,20 @@ function addGoogleBook(book) {
   }
 
   return storageService.post(BOOKS_KEY, newBook)
+}
+
+function getNextBookId(bookId) {
+  return storageService.query(BOOKS_KEY).then(books => {
+    const idx = books.findIndex(book => book.id === bookId)
+    return idx < books.length - 1 ? books[idx + 1].id : books[0].id
+  })
+}
+
+function getPrevBookId(bookId) {
+  return storageService.query(BOOKS_KEY).then(books => {
+    const idx = books.findIndex(book => book.id === bookId)
+    return idx > 0 ? books[idx - 1].id : books[books.length - 1].id
+  })
 }
 
 function _createBooks() {

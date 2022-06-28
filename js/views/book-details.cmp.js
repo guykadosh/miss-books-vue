@@ -34,7 +34,8 @@ export default {
 
           <div v-if="book.listPrice.isOnSale" class="ribbon   ribbon-top-right"><span>sale</span></div>
      
-        
+          <router-link class="btn" :to="'/book/' + prevBookId">Previous Book</router-link>
+          <router-link class="btn" :to="'/book/' + nextBookId">Next Book</router-link>
         <button class="btn" @click="goBack">Go Back</button>
         </div>
       </div>
@@ -52,6 +53,8 @@ export default {
   data() {
     return {
       book: null,
+      nextBookId: null,
+      prevBookId: null,
       isLongText: false,
       langCodes: {
         USD: 'en-US',
@@ -60,9 +63,26 @@ export default {
       },
     }
   },
-  created() {
-    const id = this.$route.params.bookId
-    bookService.get(id).then(book => (this.book = book))
+  created() {},
+  watch: {
+    '$route.params.bookId': {
+      handler() {
+        const id = this.$route.params.bookId
+
+        if (!id) return
+
+        bookService.get(id).then(book => {
+          this.book = book
+          bookService
+            .getNextBookId(book.id)
+            .then(nextBookId => (this.nextBookId = nextBookId))
+          bookService
+            .getPrevBookId(book.id)
+            .then(prevBookId => (this.prevBookId = prevBookId))
+        })
+      },
+      immediate: true,
+    },
   },
   methods: {
     addReview(review) {

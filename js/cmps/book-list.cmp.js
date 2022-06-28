@@ -4,6 +4,7 @@ export default {
   props: ['books'],
   template: `
       <section class="book-list main-layout">
+        <button class="btn" @click="goToAdd">Add book</button>
         <ul class="grid books-container">
             <li v-for="book in books" :key="book.id" class="book-preview-container card">
             <router-link :to="'/book/'+book.id">
@@ -27,6 +28,9 @@ export default {
   methods: {
     remove(bookId) {
       this.$emit('removed', bookId)
+    },
+    goToAdd() {
+      this.$router.push('/book/add')
     },
   },
   computed: {},
