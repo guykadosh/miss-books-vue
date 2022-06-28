@@ -4,23 +4,34 @@ import { showErrorMsg, showSuccessMsg } from '../services/eventBus-service.js'
 export default {
   emits: ['added'],
   template: `
-        <h2>Add a book</h2>
-        <input class="input" v-model="keyword" type="search" @keyup.enter="searchBooks">
-        <pre>{{ keyword }}</pre>
+      <section class="book-add">
+        <h3>Add a book</h3>
+        <input class="input" 
+        v-model="keyword" 
+        type="search" 
+        @keyup.enter="searchBooks" 
+        placeholder="Search a book.. Click enter for results">
+
         <div v-if="books" class="books-search-container">
-          <ul>
+          <ul class="clean-list">
             <li v-for="book in books">
               <span>{{ book.title }}</span>
               <button class="btn" @click="addBook(book)">+</button>
             </li>
           </ul>
         </div>
+      </section>
     `,
   data() {
     return {
       keyword: '',
       books: null,
     }
+  },
+  watch: {
+    keyword(value) {
+      if (!value) this.books = null
+    },
   },
   created() {},
   methods: {

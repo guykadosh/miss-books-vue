@@ -1,7 +1,7 @@
 export default {
   template: `
  <section class="book-filter main-layout flex">
-    <!-- <h2>Filter</h2> -->
+    <h3>Filter</h3>
     <input class="input" type="text" v-model="filterBy.title"  placeholder="Enter title">
     <div class="price-filter">
       <label for="price">Price</label>
