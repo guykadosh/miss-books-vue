@@ -3,7 +3,7 @@ export default {
   <header>
     <div class="header flex main-layout">
       <div class="logo">
-        <img src="../img/logo-white.png" />
+        <img src="img/logo-white.png" />
       </div>
       <nav class="nav-bar">
         <router-link to="/">Home</router-link>

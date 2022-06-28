@@ -6,7 +6,7 @@ export default {
       <h2>Manage your book store daily and easily!</h2>
       <button @click="goToBooks" class="btn">Start manage your books</button>
     </div>
-    <img src="../img/home-page.svg" alt="">
+    <img src="img/home-page.svg" alt="">
  </section>
 `,
   methods: {

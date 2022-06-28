@@ -62,14 +62,29 @@ function getGoogleBooks(keyword) {
   return fetch(url)
     .then(res => res.json())
     .then(res => {
-      gSearchCache[keyword] = res.items
+      const books = res.items.map(book => _prepareData(book))
+      gSearchCache[keyword] = books
       utilService.saveToStorage(SEARCH_KEY, gSearchCache)
-      return res.items
+      return books
     })
 }
 
 function addGoogleBook(book) {
-  console.log(book)
+  return storageService.post(BOOKS_KEY, book)
+}
+
+function getNeighborsId(bookId) {
+  return storageService.query(BOOKS_KEY).then(books => {
+    const idx = books.findIndex(book => book.id === bookId)
+
+    const prev = idx > 0 ? books[idx - 1].id : books[books.length - 1].id
+    const next = idx < books.length - 1 ? books[idx + 1].id : books[0].id
+
+    return { prev, next }
+  })
+}
+
+function _prepareData(book) {
   const {
     id,
     volumeInfo: {
@@ -85,16 +100,13 @@ function addGoogleBook(book) {
     },
   } = book
 
-  console.log(description)
-
-  console.log(imageLinks)
   const newBook = {
     id,
     title,
     subtitle: subtitle || title,
     authors,
     publishedDate,
-    description,
+    description: description || utilService.makeLorem(),
     pageCount,
     categories,
     thumbnail: imageLinks?.thumbnail || '../img/no-thumbnail.jpg',
@@ -107,18 +119,7 @@ function addGoogleBook(book) {
     reviews: [],
   }
 
-  return storageService.post(BOOKS_KEY, newBook)
-}
-
-function getNeighborsId(bookId) {
-  return storageService.query(BOOKS_KEY).then(books => {
-    const idx = books.findIndex(book => book.id === bookId)
-
-    const prev = idx > 0 ? books[idx - 1].id : books[books.length - 1].id
-    const next = idx < books.length - 1 ? books[idx + 1].id : books[0].id
-
-    return { prev, next }
-  })
+  return newBook
 }
 
 function _createBooks() {

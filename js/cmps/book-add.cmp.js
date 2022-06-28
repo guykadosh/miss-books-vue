@@ -2,6 +2,7 @@ import { bookService } from '../services/book-service.js'
 import { showErrorMsg, showSuccessMsg } from '../services/eventBus-service.js'
 
 export default {
+  emits: ['added'],
   template: `
         <h2>Add a book</h2>
         <input class="input" v-model="keyword" type="search" @keyup.enter="searchBooks">
@@ -9,7 +10,7 @@ export default {
         <div v-if="books" class="books-search-container">
           <ul>
             <li v-for="book in books">
-              <span>{{ book.volumeInfo.title }}</span>
+              <span>{{ book.title }}</span>
               <button class="btn" @click="addBook(book)">+</button>
             </li>
           </ul>
@@ -24,7 +25,6 @@ export default {
   created() {},
   methods: {
     searchBooks() {
-      console.log('called')
       bookService
         .getGoogleBooks(this.keyword)
         .then(books => (this.books = books))
@@ -33,7 +33,7 @@ export default {
       bookService
         .addGoogleBook(book)
         .then(book => {
-          console.log(book)
+          this.$emit('added')
           showSuccessMsg('Book added succsefuly!')
         })
         .catch(err => showErrorMsg('Somthing went wrong..try again!'))

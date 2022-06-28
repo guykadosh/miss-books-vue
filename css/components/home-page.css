@@ -2,27 +2,37 @@
   text-align: center;
   display: flex;
   padding: 64px;
+  width: 90%;
+  height: 61vh;
+  margin: 0 auto;
+}
+
+.home-page .headings {
+  margin-inline-end: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Cinzel', serif;
 }
 
 .home-page img {
-  width: 30%;
+  width: 40%;
 }
 
-.home-page h1 {
+.home-page .headings h1 {
   font-size: 2.5rem;
-  font-family: Roboto-bold, sans-serif;
   font-weight: 700;
-  /* color: var(--primary-color); */
   margin-bottom: 2rem;
 }
 
-.home-page h2 {
+.home-page .headings h2 {
   font-size: 1.2rem;
   color: var(--gray2);
   margin-block-end: 5rem;
 }
 
-.headings .btn {
+.home-page .headings .btn {
   padding: 1rem;
   font-size: 1rem;
 }
