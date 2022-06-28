@@ -2,7 +2,7 @@ import longText from '../cmps/long-text.cmp.js'
 import reviewAdd from '../cmps/review-add.cmp.js'
 import reviewList from '../cmps/review-list.cmp.js'
 import { bookService } from '../services/book-service.js'
-import { eventBus } from '../services/eventBus-service.js'
+import { showSuccessMsg, showErrorMsg } from '../services/eventBus-service.js'
 
 export default {
   template: `
@@ -70,25 +70,14 @@ export default {
         .addReview(this.book.id, review)
         .then(book => {
           this.book = book
-          eventBus.emit('show-msg', {
-            txt: 'Review was successfully posted!',
-            type: 'success',
-          })
+          showSuccessMsg('Review was successfully posted!')
         })
-        .catch(error =>
-          eventBus.emit('show-msg', {
-            txt: 'Somthing went wrong, Try again!',
-            type: 'error',
-          })
-        )
+        .catch(error => showErrorMsg('Somthing went wrong, Try again!'))
     },
     removeReview(reviewId) {
       bookService.removeReview(this.book.id, reviewId).then(book => {
         this.book = book
-        eventBus.emit('show-msg', {
-          txt: 'Review was successfully removed!',
-          type: 'success',
-        })
+        showSuccessMsg('Review was successfully removed!')
       })
     },
     goBack() {
@@ -103,34 +92,20 @@ export default {
     },
     bookAge() {
       const currYear = new Date().getFullYear()
-      const publishedYear = this.book.publishedDate
-      if (currYear > publishedYear + 10) return 'Veteran Book'
-      if (currYear === publishedYear + 1) return 'New!'
+      const { publishedDate } = this.book
+      if (currYear > publishedDate + 10) return 'Veteran Book'
+      if (currYear === publishedDate + 1) return 'New!'
       return ''
     },
     priceClass() {
-      const price = this.book.listPrice.amount
-      return { 'high-price': price > 150, 'low-price': price < 20 }
-    },
-    descShort() {
-      const words = this.book.description.split(' ')
-      console.log(words)
-      if (words.length > 100) return words.slice(0, 99).join(' ')
-
-      return this.book.description
-    },
-    isLongDesc() {
-      const words = this.book.description.split(' ')
-      return words.length > 100
+      const { amount } = this.book.listPrice
+      return { 'high-price': amount > 150, 'low-price': amount < 20 }
     },
     authors() {
       return this.book.authors.join(', ')
     },
-    toggleLongText() {
-      return this.isLongText ? 'Less...' : 'More...'
-    },
     price() {
-      const currencyCode = this.book.listPrice.currencyCode
+      const { currencyCode } = this.book.listPrice
       return this.book.listPrice.amount.toLocaleString(
         this.langCodes[currencyCode],
         {

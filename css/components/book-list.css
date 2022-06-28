@@ -1,5 +1,5 @@
 .books-container {
-  grid-template-columns: repeat(auto-fit, 225px);
+  grid-template-columns: repeat(auto-fit, 150px);
   gap: 1rem;
   justify-content: center;
   padding-bottom: 64px;

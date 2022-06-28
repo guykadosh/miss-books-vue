@@ -3,6 +3,10 @@ import booksData from '../../data/books.json' assert { type: 'json' }
 import { storageService } from './async-storage-service.js'
 
 const BOOKS_KEY = 'booksDB'
+const SEARCH_KEY = 'searchDB'
+
+const gSearchCache = utilService.loadFromStorage(SEARCH_KEY) || {}
+
 _createBooks()
 
 export const bookService = {
@@ -12,6 +16,8 @@ export const bookService = {
   save,
   addReview,
   removeReview,
+  getGoogleBooks,
+  addGoogleBook,
 }
 
 function query() {
@@ -45,6 +51,44 @@ function removeReview(bookId, reviewId) {
     book.reviews.splice(idx, 1)
     return save(book)
   })
+}
+
+function getGoogleBooks(keyword) {
+  if (gSearchCache[keyword]) return Promise.resolve(gSearchCache[keyword])
+
+  const url = `https://www.googleapis.com/books/v1/volumes?printType=books&q=${keyword}`
+
+  return fetch(url)
+    .then(res => res.json())
+    .then(res => {
+      gSearchCache[keyword] = res.items
+      utilService.saveToStorage(SEARCH_KEY, gSearchCache)
+      return res.items
+    })
+}
+
+function addGoogleBook(book) {
+  const newBook = {
+    id: book.id,
+    title: book.volumeInfo.title,
+    subtitle: book.volumeInfo.subtitle || book.volumeInfo.title,
+    authors: book.volumeInfo.authors,
+    publishedDate: book.volumeInfo.publishedDate,
+    description: book.volumeInfo.description,
+    pageCount: book.volumeInfo.pageCount,
+    categories: book.volumeInfo.categories,
+    thumbnail:
+      book.volumeInfo.imageLinks?.thumbnail || '../img/no-thumbnail.jpg',
+    language: book.volumeInfo.language,
+    listPrice: {
+      amount: 100,
+      currencyCode: 'ILS',
+      isOnSale: false,
+    },
+    reviews: [],
+  }
+
+  return storageService.post(BOOKS_KEY, newBook)
 }
 
 function _createBooks() {

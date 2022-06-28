@@ -3,6 +3,7 @@ import homePage from './views/home-page.cmp.js'
 import aboutPage from './views/about-page.cmp.js'
 import bookDetails from './views/book-details.cmp.js'
 import bookEdit from './views/book-edit.cmp.js'
+import bookAdd from './views/book-add.cmp.js'
 
 const routes = [
   {
@@ -24,6 +25,10 @@ const routes = [
   {
     path: '/book/edit/:bookId?',
     component: bookEdit,
+  },
+  {
+    path: '/book/add',
+    component: bookAdd,
   },
 ]
 
