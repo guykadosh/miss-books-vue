@@ -73,12 +73,10 @@ export default {
 
         bookService.get(id).then(book => {
           this.book = book
-          bookService
-            .getNextBookId(book.id)
-            .then(nextBookId => (this.nextBookId = nextBookId))
-          bookService
-            .getPrevBookId(book.id)
-            .then(prevBookId => (this.prevBookId = prevBookId))
+          bookService.getNeighborsId(book.id).then(({ prev, next }) => {
+            this.prevBookId = prev
+            this.nextBookId = next
+          })
         })
       },
       immediate: true,

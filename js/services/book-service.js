@@ -18,8 +18,7 @@ export const bookService = {
   removeReview,
   getGoogleBooks,
   addGoogleBook,
-  getNextBookId,
-  getPrevBookId,
+  getNeighborsId,
 }
 
 function query() {
@@ -70,18 +69,36 @@ function getGoogleBooks(keyword) {
 }
 
 function addGoogleBook(book) {
+  console.log(book)
+  const {
+    id,
+    volumeInfo: {
+      title,
+      subtitle,
+      authors,
+      publishedDate,
+      description,
+      pageCount,
+      categories,
+      imageLinks,
+      language,
+    },
+  } = book
+
+  console.log(description)
+
+  console.log(imageLinks)
   const newBook = {
-    id: book.id,
-    title: book.volumeInfo.title,
-    subtitle: book.volumeInfo.subtitle || book.volumeInfo.title,
-    authors: book.volumeInfo.authors,
-    publishedDate: book.volumeInfo.publishedDate,
-    description: book.volumeInfo.description,
-    pageCount: book.volumeInfo.pageCount,
-    categories: book.volumeInfo.categories,
-    thumbnail:
-      book.volumeInfo.imageLinks?.thumbnail || '../img/no-thumbnail.jpg',
-    language: book.volumeInfo.language,
+    id,
+    title,
+    subtitle: subtitle || title,
+    authors,
+    publishedDate,
+    description,
+    pageCount,
+    categories,
+    thumbnail: imageLinks?.thumbnail || '../img/no-thumbnail.jpg',
+    language,
     listPrice: {
       amount: 100,
       currencyCode: 'ILS',
@@ -93,17 +110,14 @@ function addGoogleBook(book) {
   return storageService.post(BOOKS_KEY, newBook)
 }
 
-function getNextBookId(bookId) {
+function getNeighborsId(bookId) {
   return storageService.query(BOOKS_KEY).then(books => {
     const idx = books.findIndex(book => book.id === bookId)
-    return idx < books.length - 1 ? books[idx + 1].id : books[0].id
-  })
-}
 
-function getPrevBookId(bookId) {
-  return storageService.query(BOOKS_KEY).then(books => {
-    const idx = books.findIndex(book => book.id === bookId)
-    return idx > 0 ? books[idx - 1].id : books[books.length - 1].id
+    const prev = idx > 0 ? books[idx - 1].id : books[books.length - 1].id
+    const next = idx < books.length - 1 ? books[idx + 1].id : books[0].id
+
+    return { prev, next }
   })
 }
 
