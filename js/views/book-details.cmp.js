@@ -16,10 +16,6 @@ export default {
           <h2>{{ book.title }} <span class="price" :class="priceClass">{{ price }}</span></h2>
           <p class="author">By <span>{{ authors }}</span></p>
           <h4>{{ book.subtitle }}</h4>
-          <p>Published at: {{ book.publishedDate }} {{ bookAge }}</p>
-
-          <long-text :text="book.description"></long-text>
-
           <div class="more-details">
             <div>
               <span class="detial">{{ readingType }}</span>
@@ -31,12 +27,23 @@ export default {
               </li>
             </ul>
           </div>
+          <p class="published">Published at {{ book.publishedDate }}, {{ bookAge }}</p>
+
+
+          
+
+          <long-text :text="book.description"></long-text>
+
+          
 
           <div v-if="book.listPrice.isOnSale" class="ribbon   ribbon-top-right"><span>sale</span></div>
-     
-          <router-link class="btn" :to="'/book/' + prevBookId">Previous Book</router-link>
-          <router-link class="btn" :to="'/book/' + nextBookId">Next Book</router-link>
-        <button class="btn" @click="goBack">Go Back</button>
+          <div class="action-btns">
+            <div>
+              <router-link class="btn" :to="'/book/' + prevBookId">Previous Book</router-link>
+              <router-link class="btn" :to="'/book/' + nextBookId">Next Book</router-link>
+            </div>
+            <button class="btn" @click="goBack">Go Back</button>
+          </div>
         </div>
       </div>
       
